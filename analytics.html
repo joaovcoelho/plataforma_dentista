@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentOn - Analytics & Finanças</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="app-layout">
+        <!-- Sidebar lateral -->
+        <aside class="sidebar">
+            <div>
+                <a href="index.html" class="sidebar-logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 5C6 3.5 7.5 2 10 2C11.5 2 12 3 12 3C12 3 12.5 2 14 2C16.5 2 18 3.5 18 5C18 7.5 17 11 16.5 13.5C16 16 17 18 16 20.5C15 23 13 22 12 21C11 22 9 23 8 20.5C7 18 8 16 7.5 13.5C7 11 6 7.5 6 5Z" />
+                        <path d="M12 6V15" opacity="0.3"/>
+                    </svg>
+                    <span>DentOn</span>
+                </a>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item">
+                        <a href="dashboard.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="9"/>
+                                <rect x="14" y="3" width="7" height="5"/>
+                                <rect x="14" y="12" width="7" height="9"/>
+                                <rect x="3" y="16" width="7" height="5"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="agenda.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <span>Agenda</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="prontuario.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                            <span>Prontuários</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item active">
+                        <a href="analytics.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile-badge">
+                    <div class="user-avatar" id="sidebar-avatar">JC</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-name">Dr. João Vitor Coelho</span>
+                        <span class="user-role" id="sidebar-cro">CRO-RJ 12345</span>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Sair da Conta</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Área de conteúdo principal -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Relatórios & Analytics</h1>
+                    <p>Monitore o faturamento, custos de materiais odontológicos e margem líquida.</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-secondary btn-sm" onclick="exportCSV()" style="width: auto;">Exportar CSV</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.print()" style="width: auto;">Gerar PDF</button>
+                    <button class="btn btn-primary btn-sm" onclick="openShareModal()" style="width: auto;">Enviar p/ Sócio</button>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <!-- Grid de Métricas Financeiras -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="financial-gross-revenue">R$ 0</span>
+                            <span class="metric-label">Faturamento Bruto</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon rose">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="financial-materials-cost">R$ 0</span>
+                            <span class="metric-label">Custo total de Materiais</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
+                                <line x1="12" y1="18" x2="12" y2="12"/>
+                                <line x1="12" y1="8" x2="12.01" y2="8"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="financial-net-profit">R$ 0</span>
+                            <span class="metric-label">Lucro Líquido Clínico</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon amber">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="financial-net-margin">0%</span>
+                            <span class="metric-label">Margem de Lucro Média</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção de Análise de Procedimentos e Custos -->
+                <div class="analytics-grid">
+                    <!-- Gráfico SVG Interativo de Custos vs Receitas -->
+                    <div class="chart-panel">
+                        <div class="panel-header" style="border-bottom: none; margin-bottom: 0;">
+                            <h2>Índice e Correlação de Custos por Procedimento</h2>
+                            <div style="display: flex; gap: 12px; font-size: 11px; font-weight: 600;">
+                                <span style="display: flex; align-items: center; gap: 4px;">
+                                    <span class="legend-indicator" style="background-color: var(--primary);"></span> Faturamento
+                                </span>
+                                <span style="display: flex; align-items: center; gap: 4px;">
+                                    <span class="legend-indicator" style="background-color: #f87171;"></span> Custo Material
+                                </span>
+                            </div>
+                        </div>
+                        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">Visualização comparativa do faturamento bruto contra o custo acumulado de insumos médicos por tipo de atendimento.</p>
+                        
+                        <div class="bar-chart-container" id="bar-chart-visual">
+                            <!-- Inserido dinamicamente via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Ficha Detalhada de Tabela de Margens por Item -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <h2>Margens por Procedimento</h2>
+                        </div>
+                        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Tabela unitária de insumos e retorno líquido por tipo de serviço.</p>
+                        <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: 380px;" id="margin-procedures-table">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL DE COMPARTILHAMENTO COM SÓCIO -->
+    <div id="share-modal" class="modal-backdrop">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Enviar Relatório por E-mail</h2>
+                <button class="modal-close" onclick="closeShareModal()">✕</button>
+            </div>
+            <form onsubmit="handleShareSubmit(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="partner-email">E-mail do Sócio / Destinatário</label>
+                        <input type="email" id="partner-email" class="form-control" placeholder="socio@denton.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="partner-msg">Mensagem personalizada</label>
+                        <textarea id="partner-msg" class="form-control" rows="3">Olá, segue o consolidado de faturamento, margens e custos de insumos odontológicos da clínica DentOn do Rio de Janeiro.</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeShareModal()" style="width: auto;">Voltar</button>
+                    <button type="submit" class="btn btn-primary" style="width: auto;">Enviar Relatório</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = checkAuth();
+            if (session) {
+                renderAnalytics(session);
+            }
+        });
+
+        function renderAnalytics(session) {
+            // Configurar perfil
+            document.getElementById('sidebar-name').innerText = session.name;
+            document.getElementById('sidebar-cro').innerText = session.cro;
+            const initials = session.name.split(' ').map(n => n[0]).filter(n => n !== 'D' && n !== 'r').slice(0, 2).join('').toUpperCase();
+            document.getElementById('sidebar-avatar').innerText = initials || 'JV';
+
+            // Carregar Dados
+            const appointments = getAppointments();
+            const procedures = getProcedures();
+
+            // Filtrar apenas consultas válidas (confirmadas ou concluídas)
+            const validApps = appointments.filter(a => a.status === 'confirmed' || a.status === 'completed');
+
+            // 1. Calcular Métricas de Totais
+            let totalRevenue = 0;
+            let totalMaterialsCost = 0;
+
+            // Estatísticas por procedimento
+            const statsMap = {};
+            procedures.forEach(p => {
+                statsMap[p.id] = {
+                    procedure: p,
+                    count: 0,
+                    revenue: 0,
+                    cost: 0
+                };
+            });
+
+            validApps.forEach(app => {
+                const proc = procedures.find(p => p.id === app.procedureId);
+                if (proc) {
+                    totalRevenue += proc.price;
+                    totalMaterialsCost += proc.materialCost;
+                    
+                    if (statsMap[proc.id]) {
+                        statsMap[proc.id].count++;
+                        statsMap[proc.id].revenue += proc.price;
+                        statsMap[proc.id].cost += proc.materialCost;
+                    }
+                }
+            });
+
+            const netProfit = totalRevenue - totalMaterialsCost;
+            const netMargin = totalRevenue > 0 ? Math.round((netProfit / totalRevenue) * 100) : 0;
+
+            // Preencher no DOM
+            document.getElementById('financial-gross-revenue').innerText = `R$ ${totalRevenue.toLocaleString('pt-BR')}`;
+            document.getElementById('financial-materials-cost').innerText = `R$ ${totalMaterialsCost.toLocaleString('pt-BR')}`;
+            document.getElementById('financial-net-profit').innerText = `R$ ${netProfit.toLocaleString('pt-BR')}`;
+            document.getElementById('financial-net-margin').innerText = `${netMargin}%`;
+
+            // 2. Renderizar Gráfico de Barras SVG Comparativo de Custos vs Receitas
+            const chartVisual = document.getElementById('bar-chart-visual');
+            chartVisual.innerHTML = '';
+
+            // Encontrar valor máximo para escala das barras
+            let maxVal = 0;
+            for (const key in statsMap) {
+                if (statsMap[key].revenue > maxVal) maxVal = statsMap[key].revenue;
+            }
+            if (maxVal === 0) maxVal = 1000; // Valor padrão para evitar divisão por 0
+
+            for (const key in statsMap) {
+                const stat = statsMap[key];
+                const revenuePercent = (stat.revenue / maxVal) * 100;
+                const costPercent = (stat.cost / maxVal) * 100;
+
+                const itemHtml = `
+                    <div class="bar-chart-item">
+                        <div class="bar-chart-label-row">
+                            <span>${stat.procedure.name} (${stat.count} atendimentos)</span>
+                            <span style="font-weight: 500; font-size: 12px; color: var(--text-muted);">
+                                Fat: R$ ${stat.revenue.toLocaleString('pt-BR')} • Cust: R$ ${stat.cost.toLocaleString('pt-BR')}
+                            </span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill-revenue" style="width: ${revenuePercent}%"></div>
+                            <div class="bar-fill-cost" style="width: ${costPercent}%; margin-left: 2px;"></div>
+                        </div>
+                    </div>
+                `;
+                chartVisual.insertAdjacentHTML('beforeend', itemHtml);
+            }
+
+            // 3. Renderizar Tabela Detalhada de Margens
+            const marginTable = document.getElementById('margin-procedures-table');
+            marginTable.innerHTML = '';
+
+            procedures.forEach(proc => {
+                const profit = proc.price - proc.materialCost;
+                const marginPercent = proc.price > 0 ? Math.round((profit / proc.price) * 100) : 0;
+                
+                const itemHtml = `
+                    <div class="appointment-item" style="border-radius: var(--radius-md); padding: 12px 16px;">
+                        <div class="patient-meta">
+                            <span class="patient-name-title" style="font-size: 14px;">${proc.name}</span>
+                            <span class="appointment-time-procedure" style="font-size: 11px;">
+                                Preço Cobrado: <strong>R$ ${proc.price}</strong> • Custo Insumos: <strong>R$ ${proc.materialCost}</strong>
+                            </span>
+                        </div>
+                        <div style="text-align: right; display: flex; flex-direction: column;">
+                            <span style="font-weight: 700; color: var(--primary); font-size: 14px;">+ R$ ${profit}</span>
+                            <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Margem: ${marginPercent}%</span>
+                        </div>
+                    </div>
+                `;
+                marginTable.insertAdjacentHTML('beforeend', itemHtml);
+            });
+        }
+
+        // Simulação de exportação CSV
+        function exportCSV() {
+            const appointments = getAppointments();
+            const procedures = getProcedures();
+            const validApps = appointments.filter(a => a.status === 'confirmed' || a.status === 'completed');
+
+            let csvContent = "data:text/csv;charset=utf-8,ID Consulta;Procedimento;Faturamento;Custo Insumos;Margem de Lucro;Status\n";
+
+            validApps.forEach(app => {
+                const proc = procedures.find(p => p.id === app.procedureId);
+                if (proc) {
+                    const profit = proc.price - proc.materialCost;
+                    csvContent += `${app.id};${proc.name};${proc.price};${proc.materialCost};${profit};${app.status}\n`;
+                }
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `relatorio_financeiro_denton_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast("Planilha CSV baixada com sucesso!");
+        }
+
+        // Modais de compartilhamento
+        function openShareModal() {
+            document.getElementById('share-modal').style.display = 'flex';
+        }
+
+        function closeShareModal() {
+            document.getElementById('share-modal').style.display = 'none';
+        }
+
+        function handleShareSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('partner-email').value;
+            closeShareModal();
+            showToast(`Relatório enviado por e-mail para ${email}!`);
+        }
+    </script>
+</body>
+</html>

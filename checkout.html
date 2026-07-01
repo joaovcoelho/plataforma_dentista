@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentOn - Agendamento & Checkout</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="landing-body" style="background-color: var(--bg-main);">
+
+    <!-- BARRA DE NAVEGAÇÃO COMPACTA -->
+    <nav class="landing-navbar" style="position: relative; margin-bottom: 20px;">
+        <a href="index.html" class="sidebar-logo" style="margin-bottom: 0;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 5C6 3.5 7.5 2 10 2C11.5 2 12 3 12 3C12 3 12.5 2 14 2C16.5 2 18 3.5 18 5C18 7.5 17 11 16.5 13.5C16 16 17 18 16 20.5C15 23 13 22 12 21C11 22 9 23 8 20.5C7 18 8 16 7.5 13.5C7 11 6 7.5 6 5Z" />
+                <path d="M12 6V15" opacity="0.3"/>
+            </svg>
+            <span>DentOn</span>
+        </a>
+        <a href="index.html" class="btn btn-secondary btn-sm" style="width: auto;">Voltar para Home</a>
+    </nav>
+
+    <!-- CONTAINER PRINCIPAL DO CHECKOUT -->
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1>Agende sua Consulta</h1>
+            <p>Escolha a data, insira seus dados e realize o pagamento seguro online.</p>
+        </div>
+
+        <!-- Barra de progresso dos passos -->
+        <div class="checkout-steps-bar">
+            <div class="checkout-step-indicator active" id="step-indicator-1">
+                <div class="step-num">1</div>
+                <span class="step-label">Consulta & Data</span>
+            </div>
+            <div class="checkout-step-indicator" id="step-indicator-2">
+                <div class="step-num">2</div>
+                <span class="step-label">Seus Dados</span>
+            </div>
+            <div class="checkout-step-indicator" id="step-indicator-3">
+                <div class="step-num">3</div>
+                <span class="step-label">Pagamento</span>
+            </div>
+        </div>
+
+        <div class="checkout-body">
+            <!-- PASSO 1: PROCEDIMENTO E DATA -->
+            <div class="checkout-step-content active" id="step-content-1">
+                <div class="form-group">
+                    <label for="checkout-procedure">Escolha o Procedimento</label>
+                    <select id="checkout-procedure" class="form-control" onchange="updateSummaryPrice()" required>
+                        <!-- Procedimentos carregados via JS -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="checkout-date">Selecione o Dia</label>
+                    <input type="date" id="checkout-date" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Escolha o Horário de Atendimento</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 8px;" id="time-slots-container">
+                        <!-- Horários gerados via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASSO 2: DADOS DO PACIENTE -->
+            <div class="checkout-step-content" id="step-content-2">
+                <div class="form-group">
+                    <label for="checkout-name">Nome Completo</label>
+                    <input type="text" id="checkout-name" class="form-control" placeholder="Digite seu nome completo..." required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkout-birth">Data de Nascimento</label>
+                        <input type="date" id="checkout-birth" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-phone">Celular</label>
+                        <input type="tel" id="checkout-phone" class="form-control" placeholder="(21) 99999-9999" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkout-email">E-mail</label>
+                        <input type="email" id="checkout-email" class="form-control" placeholder="exemplo@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-plan">Convênio Odontológico</label>
+                        <select id="checkout-plan" class="form-control" required>
+                            <option value="Particular">Particular (Sem convênio)</option>
+                            <option value="Bradesco Saúde">Bradesco Saúde</option>
+                            <option value="Amil Dental">Amil Dental</option>
+                            <option value="SulAmérica Odonto">SulAmérica Odonto</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-notes">Mensagem ou Sintoma Relatado (Opcional)</label>
+                    <textarea id="checkout-notes" class="form-control" rows="3" placeholder="Ex: dor ao mastigar no lado esquerdo, dente quebrado..."></textarea>
+                </div>
+            </div>
+
+            <!-- PASSO 3: PAGAMENTO -->
+            <div class="checkout-step-content" id="step-content-3">
+                <div class="payment-selector">
+                    <div class="payment-type-card active" onclick="switchPaymentPane('pix')">
+                        <div class="payment-type-icon">⚡</div>
+                        <div class="payment-type-label">Pix</div>
+                    </div>
+                    <div class="payment-type-card" onclick="switchPaymentPane('card')">
+                        <div class="payment-type-icon">💳</div>
+                        <div class="payment-type-label">Cartão</div>
+                    </div>
+                    <div class="payment-type-card" onclick="switchPaymentPane('boleto')">
+                        <div class="payment-type-icon">📄</div>
+                        <div class="payment-type-label">Boleto</div>
+                    </div>
+                </div>
+
+                <!-- Painel Pix -->
+                <div class="payment-pane active" id="pane-pix">
+                    <div class="pix-qr-container">
+                        <div class="pix-qr-code" style="display: flex; align-items: center; justify-content: center;">
+                            <!-- QR Code Simulado com SVG -->
+                            <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="#2d6a4f" stroke-width="1.5">
+                                <rect x="2" y="2" width="6" height="6" stroke-width="2"/>
+                                <rect x="16" y="2" width="6" height="6" stroke-width="2"/>
+                                <rect x="2" y="16" width="6" height="6" stroke-width="2"/>
+                                <rect x="9" y="9" width="6" height="6"/>
+                                <path d="M12 2v4M2 12h4M12 16v6M16 12h6"/>
+                            </svg>
+                        </div>
+                        <p style="font-size: 13px; text-align: center; color: var(--text-muted); max-width: 400px;">
+                            Escaneie o QR Code ou copie o código Pix abaixo para realizar o pagamento. A consulta será confirmada na hora!
+                        </p>
+                        <div class="pix-code-box">
+                            <input type="text" class="form-control" id="pix-copy-text" value="00020101021226870014br.gov.bcb.pix0136denton-clinica-rio-joaovitor12354897" readonly>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPaymentCode('pix-copy-text', 'Código Pix copiado!')">Copiar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Cartão -->
+                <div class="payment-pane" id="pane-card">
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div class="form-group">
+                            <label for="card-number">Número do Cartão</label>
+                            <input type="text" id="card-number" class="form-control" placeholder="4532 8765 0987 1234">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-name">Nome Impresso no Cartão</label>
+                            <input type="text" id="card-name" class="form-control" placeholder="JOAO V O SILVA">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="card-expiry">Validade</label>
+                                <input type="text" id="card-expiry" class="form-control" placeholder="12/29">
+                            </div>
+                            <div class="form-group">
+                                <label for="card-cvv">CVV</label>
+                                <input type="text" id="card-cvv" class="form-control" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Boleto -->
+                <div class="payment-pane" id="pane-boleto">
+                    <div class="boleto-container">
+                        <div class="payment-type-icon" style="font-size: 36px;">📄</div>
+                        <p style="font-size: 13px; text-align: center; color: var(--text-muted); max-width: 400px;">
+                            Pague o boleto bancário em qualquer banco ou casa lotérica. A confirmação de pagamento do boleto pode levar até 48 horas úteis.
+                        </p>
+                        <div class="boleto-barcode">|||| | | ||| |||| | |||| || ||| || ||| |</div>
+                        <div class="pix-code-box">
+                            <input type="text" class="form-control" id="boleto-copy-text" value="34191.79001 01043.513147 91020.150008 7 98250000018000" readonly>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPaymentCode('boleto-copy-text', 'Código do Boleto copiado!')">Copiar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumo do Preço no Checkout -->
+                <div style="background-color: var(--primary-light); padding: 16px; border-radius: var(--radius-md); margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--primary);">
+                    <span style="font-weight: 700; color: var(--primary);">Valor Total da Consulta:</span>
+                    <span style="font-size: 20px; font-weight: 800; color: var(--primary);" id="summary-price">R$ 180</span>
+                </div>
+            </div>
+
+            <!-- TELA DE SUCESSO -->
+            <div class="checkout-step-content" id="step-content-success">
+                <div class="success-card">
+                    <div class="success-icon">✓</div>
+                    <h2>Agendamento Confirmado!</h2>
+                    <p id="success-message">Sua consulta foi agendada e paga com sucesso. Você receberá os detalhes de preparação em seu e-mail cadastrado.</p>
+                    
+                    <div style="background-color: var(--bg-main); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); text-align: left; width: 100%; max-width: 480px; margin-bottom: 24px;">
+                        <h4 style="font-size: 14px; font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 12px; color: var(--text-main);">Detalhes da Consulta</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                            <span style="color: var(--text-muted);">Paciente:</span>
+                            <strong style="color: var(--text-main);" id="success-pat">João Silva</strong>
+                            
+                            <span style="color: var(--text-muted);">Procedimento:</span>
+                            <strong style="color: var(--text-main);" id="success-proc">Limpeza</strong>
+                            
+                            <span style="color: var(--text-muted);">Data:</span>
+                            <strong style="color: var(--text-main);" id="success-date">28/05/2026</strong>
+                            
+                            <span style="color: var(--text-muted);">Horário:</span>
+                            <strong style="color: var(--text-main);" id="success-time">09:00 - 09:45</strong>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 16px;">
+                        <a href="index.html" class="btn btn-secondary" style="width: auto;">Voltar para Home</a>
+                        <button type="button" class="btn btn-primary" style="width: auto;" onclick="window.print()">Imprimir Comprovante</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-footer" id="checkout-buttons">
+            <button class="btn btn-secondary" id="btn-prev" onclick="navigateStep(-1)" disabled style="width: auto;">Anterior</button>
+            <button class="btn btn-primary" id="btn-next" onclick="navigateStep(1)" style="width: auto;">Avançar</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script>
+        let currentStep = 1;
+        let selectedTime = null;
+        let selectedPaymentMethod = 'pix';
+        const AVAILABLE_HOURS = ['08:00', '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Carregar procedimentos nos selects
+            const procSelect = document.getElementById('checkout-procedure');
+            const procedures = getProcedures();
+            procSelect.innerHTML = '';
+            procedures.forEach(proc => {
+                procSelect.insertAdjacentHTML('beforeend', `<option value="${proc.id}">${proc.name} (R$ ${proc.price.toLocaleString('pt-BR')})</option>`);
+            });
+
+            // 2. Setar dia padrão como hoje
+            const dateInput = document.getElementById('checkout-date');
+            const todayStr = new Date().toISOString().split('T')[0];
+            dateInput.value = todayStr;
+            dateInput.min = todayStr; // Não permite agendar datas passadas
+
+            // 3. Gerar slots de tempo
+            renderTimeSlots();
+
+            // 4. Checar se tem procedimento na URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const procParam = urlParams.get('procedure');
+            if (procParam && procedures.find(p => p.id === procParam)) {
+                procSelect.value = procParam;
+            }
+
+            updateSummaryPrice();
+        });
+
+        function renderTimeSlots() {
+            const container = document.getElementById('time-slots-container');
+            container.innerHTML = '';
+            
+            AVAILABLE_HOURS.forEach((hour, i) => {
+                const btnId = `slot-${i}`;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn btn-secondary btn-sm';
+                btn.style.width = '100%';
+                btn.innerText = hour;
+                btn.id = btnId;
+                
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#time-slots-container button').forEach(b => {
+                        b.classList.remove('btn-primary');
+                        b.classList.add('btn-secondary');
+                    });
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn-primary');
+                    selectedTime = hour;
+                });
+
+                container.appendChild(btn);
+            });
+        }
+
+        function updateSummaryPrice() {
+            const procId = document.getElementById('checkout-procedure').value;
+            const procedures = getProcedures();
+            const selected = procedures.find(p => p.id === procId);
+            const price = selected ? selected.price : 0;
+            document.getElementById('summary-price').innerText = `R$ ${price.toLocaleString('pt-BR')}`;
+        }
+
+        function switchPaymentPane(method) {
+            selectedPaymentMethod = method;
+            
+            // Alterar cartões ativos
+            document.querySelectorAll('.payment-type-card').forEach(card => card.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Alterar painel ativo
+            document.querySelectorAll('.payment-pane').forEach(pane => pane.classList.remove('active'));
+            if (method === 'pix') document.getElementById('pane-pix').classList.add('active');
+            if (method === 'card') document.getElementById('pane-card').classList.add('active');
+            if (method === 'boleto') document.getElementById('pane-boleto').classList.add('active');
+        }
+
+        function navigateStep(dir) {
+            // Validações antes de avançar
+            if (dir === 1) {
+                if (currentStep === 1) {
+                    if (!selectedTime) {
+                        alert('Por favor, selecione um horário para seu atendimento.');
+                        return;
+                    }
+                } else if (currentStep === 2) {
+                    const name = document.getElementById('checkout-name').value.trim();
+                    const birth = document.getElementById('checkout-birth').value;
+                    const phone = document.getElementById('checkout-phone').value.trim();
+                    const email = document.getElementById('checkout-email').value.trim();
+                    
+                    if (!name || !birth || !phone || !email) {
+                        alert('Por favor, preencha todos os campos obrigatórios.');
+                        return;
+                    }
+                } else if (currentStep === 3) {
+                    // Finalizar pagamento e agendamento
+                    confirmBookingAndPayment();
+                    return;
+                }
+            }
+
+            // Mudar aba ativa
+            document.getElementById(`step-content-${currentStep}`).classList.remove('active');
+            document.getElementById(`step-indicator-${currentStep}`).classList.remove('active');
+            
+            currentStep += dir;
+            
+            document.getElementById(`step-content-${currentStep}`).classList.add('active');
+            document.getElementById(`step-indicator-${currentStep}`).classList.add('active');
+
+            // Controlar botões do footer
+            document.getElementById('btn-prev').disabled = currentStep === 1;
+            
+            if (currentStep === 3) {
+                document.getElementById('btn-next').innerText = 'Confirmar e Pagar';
+            } else {
+                document.getElementById('btn-next').innerText = 'Avançar';
+            }
+        }
+
+        function confirmBookingAndPayment() {
+            // 1. Coleta dados
+            const procId = document.getElementById('checkout-procedure').value;
+            const date = document.getElementById('checkout-date').value;
+            const name = document.getElementById('checkout-name').value.trim();
+            const birth = document.getElementById('checkout-birth').value;
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const email = document.getElementById('checkout-email').value.trim();
+            const plan = document.getElementById('checkout-plan').value;
+            const notes = document.getElementById('checkout-notes').value.trim();
+
+            const procedures = getProcedures();
+            const procedure = procedures.find(p => p.id === procId);
+
+            // 2. Criar ou Obter Paciente no LocalStorage
+            let patients = getPatients();
+            let patient = patients.find(p => p.email.toLowerCase() === email.toLowerCase());
+
+            if (!patient) {
+                // Criar novo paciente
+                patient = addPatient({
+                    name,
+                    birthDate: birth,
+                    phone,
+                    email,
+                    plan,
+                    notes: `Cadastrado via checkout. Observações: ${notes || 'Nenhuma'}`
+                });
+            } else {
+                // Paciente existe, registrar nota da consulta
+                if (notes) {
+                    updatePatient(patient.id, {
+                        notes: patient.notes + ` | Alerta de agendamento: ${notes}`
+                    });
+                }
+            }
+
+            // Calcular horários em formato ISO
+            const startHour = selectedTime;
+            const [h, m] = startHour.split(':').map(Number);
+            const endD = new Date();
+            endD.setHours(h);
+            endD.setMinutes(m + 45); // Duração padrão 45 min
+            const endHour = `${String(endD.getHours()).padStart(2, '0')}:${String(endD.getMinutes()).padStart(2, '0')}`;
+
+            const dateTimeStart = `${date}T${startHour}`;
+            const dateTimeEnd = `${date}T${endHour}`;
+
+            // Determinar status do agendamento (boleto fica pendente, Pix e cartão confirmados na hora)
+            const appStatus = selectedPaymentMethod === 'boleto' ? 'pending' : 'confirmed';
+
+            // 3. Cadastrar a Consulta
+            const newApp = addAppointment({
+                patientId: patient.id,
+                procedureId: procId,
+                dateTimeStart,
+                dateTimeEnd,
+                status: appStatus,
+                notes: `Agendamento e pagamento efetuados via checkout online. Pago via: ${selectedPaymentMethod.toUpperCase()}`
+            });
+
+            // 4. Adicionar nota de agendamento automático na evolução do paciente
+            const dateToday = new Date().toISOString().split('T')[0];
+            const logsTitle = `Agendamento Online: ${procedure ? procedure.name : 'Consulta'}`;
+            const logsDesc = `Paciente efetuou agendamento para o dia ${formatBrazilianDate(date)} às ${startHour} via checkout online. Pagamento processado via ${selectedPaymentMethod.toUpperCase()} com status: ${appStatus === 'confirmed' ? 'PAGO' : 'PENDENTE'}.`;
+            
+            // Relarregar dados atualizados do paciente
+            const updatedPatients = getPatients();
+            const actPat = updatedPatients.find(p => p.id === patient.id);
+            if (actPat) {
+                if (!actPat.evolution) actPat.evolution = [];
+                actPat.evolution.push({
+                    date: dateToday,
+                    title: logsTitle,
+                    notes: logsDesc
+                });
+                updatePatient(actPat.id, { evolution: actPat.evolution });
+            }
+
+            // 5. Preencher tela de Sucesso
+            document.getElementById('success-pat').innerText = name;
+            document.getElementById('success-proc').innerText = procedure ? procedure.name : 'Consulta';
+            document.getElementById('success-date').innerText = formatBrazilianDate(date);
+            document.getElementById('success-time').innerText = `${startHour} - ${endHour}`;
+
+            if (selectedPaymentMethod === 'boleto') {
+                document.getElementById('success-message').innerText = 'Seu agendamento foi pré-reservado! A confirmação final ocorrerá após a compensação do boleto (até 48h úteis).';
+            } else {
+                document.getElementById('success-message').innerText = 'Sua consulta foi agendada e paga com sucesso! O Dr. João Vitor aguarda você no consultório do Rio de Janeiro.';
+            }
+
+            // Exibir tela de sucesso
+            document.querySelectorAll('.checkout-step-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('step-content-success').classList.add('active');
+            document.getElementById('step-indicator-3').classList.remove('active');
+            document.getElementById('checkout-buttons').style.display = 'none';
+        }
+
+        function copyPaymentCode(inputId, toastMessage) {
+            const copyText = document.getElementById(inputId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // Para celulares
+            navigator.clipboard.writeText(copyText.value);
+            showToast(toastMessage);
+        }
+    </script>
+
+</body>
+</html>
