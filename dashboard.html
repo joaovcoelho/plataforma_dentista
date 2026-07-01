@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentOn - Dashboard do Dentista</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="app-layout">
+        <!-- Sidebar lateral -->
+        <aside class="sidebar">
+            <div>
+                <a href="index.html" class="sidebar-logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 5C6 3.5 7.5 2 10 2C11.5 2 12 3 12 3C12 3 12.5 2 14 2C16.5 2 18 3.5 18 5C18 7.5 17 11 16.5 13.5C16 16 17 18 16 20.5C15 23 13 22 12 21C11 22 9 23 8 20.5C7 18 8 16 7.5 13.5C7 11 6 7.5 6 5Z" />
+                        <path d="M12 6V15" opacity="0.3"/>
+                    </svg>
+                    <span>DentOn</span>
+                </a>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item active">
+                        <a href="dashboard.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="9"/>
+                                <rect x="14" y="3" width="7" height="5"/>
+                                <rect x="14" y="12" width="7" height="9"/>
+                                <rect x="3" y="16" width="7" height="5"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="agenda.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <span>Agenda</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="prontuario.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                            <span>Prontuários</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="analytics.html">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile-badge">
+                    <div class="user-avatar" id="sidebar-avatar">JC</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-name">Dr. João Vitor Coelho</span>
+                        <span class="user-role" id="sidebar-cro">CRO-RJ 12345</span>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Sair da Conta</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Área de conteúdo principal -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1 id="welcome-text">Olá, Dr. João Vitor</h1>
+                    <p>Aqui está o resumo clínico e operacional da sua clínica para hoje.</p>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <!-- Grid de Métricas do Dashboard -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v-2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="metric-patients">0</span>
+                            <span class="metric-label">Pacientes Ativos</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="metric-today-appointments">0</span>
+                            <span class="metric-label">Consultas Hoje</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon amber">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="metric-revenue">R$ 0</span>
+                            <span class="metric-label">Faturamento Mensal</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon rose">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="metric-details">
+                            <span class="metric-value" id="metric-pending">0</span>
+                            <span class="metric-label">Aguardando Confirmação</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painéis Inferiores -->
+                <div class="dashboard-grid">
+                    <!-- Painel de Próximas Consultas -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <h2>Próximas Consultas do Dia</h2>
+                            <a href="agenda.html" class="btn btn-secondary btn-sm" style="width: auto;">Ver Agenda</a>
+                        </div>
+                        <div class="appointment-list" id="dashboard-appointments">
+                            <!-- Inserido dinamicamente via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Painel Lateral de Ações Rápidas & Gráfico -->
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div class="dashboard-panel">
+                            <div class="panel-header">
+                                <h2>Ações Rápidas</h2>
+                            </div>
+                            <div class="quick-actions-grid">
+                                <a href="agenda.html?new=true" class="action-card">
+                                    <div class="action-card-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"/>
+                                            <line x1="5" y1="12" x2="19" y2="12"/>
+                                        </svg>
+                                    </div>
+                                    <div class="action-card-info">
+                                        <h3>Marcar Consulta</h3>
+                                        <p>Agende uma nova consulta com rapidez.</p>
+                                    </div>
+                                </a>
+                                <a href="prontuario.html?new=true" class="action-card">
+                                    <div class="action-card-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                            <circle cx="9" cy="7" r="4"/>
+                                            <line x1="19" y1="8" x2="19" y2="14"/>
+                                            <line x1="16" y1="11" x2="22" y2="11"/>
+                                        </svg>
+                                    </div>
+                                    <div class="action-card-info">
+                                        <h3>Cadastrar Paciente</h3>
+                                        <p>Adicione um novo paciente e prontuário.</p>
+                                    </div>
+                                </a>
+                                <a href="prontuario.html" class="action-card">
+                                    <div class="action-card-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="action-card-info">
+                                        <h3>Prontuário & Odontograma</h3>
+                                        <p>Acesse o histórico clínico e dentes.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico de Faturamento Visual (SVG Premium) -->
+                        <div class="dashboard-panel">
+                            <div class="panel-header">
+                                <h2>Desempenho da Clínica (Tema Verde)</h2>
+                            </div>
+                            <div style="height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                <svg width="100%" height="120" viewBox="0 0 300 100" preserveAspectRatio="none">
+                                    <defs>
+                                        <linearGradient id="chart-grad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#2d6a4f" stop-opacity="0.3"/>
+                                            <stop offset="100%" stop-color="#2d6a4f" stop-opacity="0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M 0,80 Q 50,40 100,60 T 200,20 T 300,30 L 300,100 L 0,100 Z" fill="url(#chart-grad)" />
+                                    <path d="M 0,80 Q 50,40 100,60 T 200,20 T 300,30" fill="none" stroke="#2d6a4f" stroke-width="3" stroke-linecap="round" />
+                                    <!-- Pontos no gráfico -->
+                                    <circle cx="100" cy="60" r="4" fill="#2d6a4f" />
+                                    <circle cx="200" cy="20" r="4" fill="#2d6a4f" />
+                                    <circle cx="300" cy="30" r="4" fill="#2d6a4f" />
+                                </svg>
+                                <div style="display: flex; justify-content: space-between; width: 100%; margin-top: 10px; font-size: 11px; color: var(--text-muted); font-weight: 500;">
+                                    <span>Semana 1</span>
+                                    <span>Semana 2</span>
+                                    <span>Semana 3</span>
+                                    <span>Semana de Hoje</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = checkAuth();
+            if (session) {
+                renderDashboard(session);
+            }
+        });
+
+        function renderDashboard(session) {
+            document.getElementById('welcome-text').innerText = `Olá, ${session.name.split(' ')[1]}`; // 'João'
+            document.getElementById('sidebar-name').innerText = session.name;
+            document.getElementById('sidebar-cro').innerText = session.cro;
+            
+            const initials = session.name.split(' ').map(n => n[0]).filter(n => n !== 'D' && n !== 'r').slice(0, 2).join('').toUpperCase();
+            document.getElementById('sidebar-avatar').innerText = initials || 'JV';
+
+            // Carregar Dados
+            const patients = getPatients();
+            const appointments = getAppointments();
+            const procedures = getProcedures();
+
+            // Setar Métricas
+            document.getElementById('metric-patients').innerText = patients.length;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const todayApps = appointments.filter(a => a.dateTimeStart.startsWith(todayStr));
+            document.getElementById('metric-today-appointments').innerText = todayApps.length;
+
+            const pendingApps = appointments.filter(a => a.status === 'pending');
+            document.getElementById('metric-pending').innerText = pendingApps.length;
+
+            const currentMonthStr = todayStr.substring(0, 7); // YYYY-MM
+            const completedOrConfirmedMonth = appointments.filter(a => 
+                a.dateTimeStart.startsWith(currentMonthStr) && 
+                (a.status === 'completed' || a.status === 'confirmed')
+            );
+            
+            const totalRevenue = completedOrConfirmedMonth.reduce((acc, app) => {
+                const proc = procedures.find(p => p.id === app.procedureId);
+                return acc + (proc ? proc.price : 0);
+            }, 0);
+            
+            document.getElementById('metric-revenue').innerText = `R$ ${totalRevenue.toLocaleString('pt-BR')}`;
+
+            // Renderizar Lista de Próximas Consultas do Dia
+            const appListContainer = document.getElementById('dashboard-appointments');
+            appListContainer.innerHTML = '';
+
+            const sortedTodayApps = todayApps.sort((a, b) => a.dateTimeStart.localeCompare(b.dateTimeStart));
+
+            if (sortedTodayApps.length === 0) {
+                appListContainer.innerHTML = `
+                    <div style="text-align: center; padding: 32px 16px; color: var(--text-muted);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <p style="font-size: 14px; font-weight: 500;">Nenhuma consulta agendada para hoje.</p>
+                        <p style="font-size: 12px; margin-top: 4px;">Você verá os agendamentos dos pacientes aqui.</p>
+                    </div>
+                `;
+            } else {
+                sortedTodayApps.forEach(app => {
+                    const patient = patients.find(p => p.id === app.patientId);
+                    const procedure = procedures.find(p => p.id === app.procedureId);
+                    if (!patient) return;
+
+                    const patientInitials = patient.name.split(' ').map(n => n[0]).slice(0,2).join('').toUpperCase();
+                    const timeStart = formatBrazilianTime(app.dateTimeStart);
+                    const timeEnd = formatBrazilianTime(app.dateTimeEnd);
+
+                    const itemHtml = `
+                        <div class="appointment-item">
+                            <div class="appointment-patient-info">
+                                <div class="patient-initials">${patientInitials}</div>
+                                <div class="patient-meta">
+                                    <span class="patient-name-title">${patient.name}</span>
+                                    <span class="appointment-time-procedure">${timeStart} - ${timeEnd} • ${procedure ? procedure.name : 'Avaliação'}</span>
+                                </div>
+                            </div>
+                            <span class="status-badge status-${app.status}">${translateStatus(app.status)}</span>
+                        </div>
+                    `;
+                    appListContainer.insertAdjacentHTML('beforeend', itemHtml);
+                });
+            }
+        }
+
+        function translateStatus(status) {
+            switch(status) {
+                case 'pending': return 'pendente';
+                case 'confirmed': return 'confirmado';
+                case 'completed': return 'concluído';
+                case 'canceled': return 'cancelado';
+                default: return status;
+            }
+        }
+    </script>
+</body>
+</html>
