@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentOn - Login Clínico</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-form-side">
+            <div class="login-box">
+                <div class="brand-header">
+                    <a href="index.html" class="brand-logo" style="text-decoration: none;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 5C6 3.5 7.5 2 10 2C11.5 2 12 3 12 3C12 3 12.5 2 14 2C16.5 2 18 3.5 18 5C18 7.5 17 11 16.5 13.5C16 16 17 18 16 20.5C15 23 13 22 12 21C11 22 9 23 8 20.5C7 18 8 16 7.5 13.5C7 11 6 7.5 6 5Z" />
+                            <path d="M12 6V15" opacity="0.3"/>
+                        </svg>
+                        <span>DentOn</span>
+                    </a>
+                    <div class="brand-slogan">Sua dentista mais perto</div>
+                </div>
+                <h2>Acesse sua conta</h2>
+                <p>Insira suas credenciais clínicas para entrar no painel profissional.</p>
+                
+                <div id="login-error" class="status-badge status-canceled d-none mb-4" style="text-align: center; border-radius: 8px; width: 100%;">
+                    E-mail ou senha incorretos!
+                </div>
+
+                <form id="login-form" onsubmit="handleLoginSubmit(event)">
+                    <div class="form-group">
+                        <label for="email">E-mail Clínico</label>
+                        <input type="email" id="email" class="form-control" placeholder="dentista@denton.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div style="margin-bottom: 24px; font-size: 13px; color: var(--text-muted);">
+                        <span>Acesso Simulado: <strong style="color: var(--primary);">dentista@denton.com</strong> / <strong style="color: var(--primary);">senha123</strong></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Entrar no Painel</button>
+                </form>
+                <div style="margin-top: 24px; text-align: center;">
+                    <a href="index.html" style="font-size: 13px; color: var(--text-muted); text-decoration: none;">← Voltar para a página dos pacientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="login-illustration-side">
+            <div class="login-illustration-content">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 5C6 3.5 7.5 2 10 2C11.5 2 12 3 12 3C12 3 12.5 2 14 2C16.5 2 18 3.5 18 5C18 7.5 17 11 16.5 13.5C16 16 17 18 16 20.5C15 23 13 22 12 21C11 22 9 23 8 20.5C7 18 8 16 7.5 13.5C7 11 6 7.5 6 5Z" />
+                    <path d="M12 6V15" opacity="0.3"/>
+                </svg>
+                <h1>Painel Profissional DentOn</h1>
+                <p>Gerencie prontuários, acompanhe consultas em tempo real, gerencie sua agenda e analise relatórios de faturamento e custos de materiais.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script>
+        // Ao carregar a página de login, se já estiver logado, vai direto para o dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = checkAuth();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('email').value.trim();
+            const passInput = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            const result = login(emailInput, passInput);
+            if (result.success) {
+                errorDiv.classList.add('d-none');
+                window.location.href = 'dashboard.html';
+            } else {
+                errorDiv.classList.remove('d-none');
+                errorDiv.innerText = result.message;
+            }
+        }
+    </script>
+</body>
+</html>
